@@ -25,8 +25,5 @@
   "bugs": {
     "url": "https://github.com/WilliamBZA/DiceMaster/issues"
   },
-  "homepage": "https://github.com/WilliamBza/DiceMaster",
-  "engines": {
-    "node": "4.1.1"
-  }
+  "homepage": "https://github.com/WilliamBza/DiceMaster"
 }
