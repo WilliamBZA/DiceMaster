@@ -9,14 +9,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('port', (process.env.PORT || 9001));
 
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.send('It works!');
 });
 
-app.post('/post', function(req, res){
+app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
-        text: 'rolling...'
+        text: JSON.stringify(req)
       };
 
       res.send(body);
