@@ -1,45 +1,42 @@
-var restify = require('restify')
-var logger = require('morgan')
+var express = require('express');
+var app = express();
+var url = require('url');
+var request = require('request');
 
-var VERIFY_TOKEN = process.env.SLACK_VERIFY_TOKEN
-if (!VERIFY_TOKEN) {
-  console.error('SLACK_VERIFY_TOKEN is required')
-  process.exit(1)
-}
-// Use Beep Boop provided PORT - default to 8080 for dev
-var PORT = process.env.PORT || 8080
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var server = restify.createServer()
-server.use(logger('tiny'))
+app.set('port', (process.env.PORT || 9001));
 
-// Add a `/beepboop` route handler for `/beepboop` slash command
-server.post('/beepboop', restify.bodyParser(), function (req, res) {
-  if (req.params.token !== VERIFY_TOKEN) {
-    return res.send(401, 'Unauthorized')
-  }
+app.get('/', function(req, res){
+  res.send('It works!');
+});
 
-  var message = 'boopbeep'
+app.post('/post', function(req, res){
+  var parsed_url = url.format({
+    pathname: 'https://api.genius.com/search',
+    query: {
+      access_token: process.env.GENIUS_ACCESS,
+      q: req.body.text
+    }
+  });
 
-  // Handle any help requests
-  if (req.params.text === 'help') {
-    message = "Sorry, I can't offer much help, just here to beep and boop"
-  }
+  request(parsed_url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var data = JSON.parse(body);
+      var first_url = data.response.hits[0].result.url;
 
-  res.send({
-    response_type: 'ephemeral',
-    text: message
-  })
-})
-// Add a GET handler for `/beepboop` route that Slack expects to be present
-server.get('/beepboop', function (req, res) {
-  res.send(200, 'Ok')
-})
+      var body = {
+        response_type: "in_channel",
+        text: first_url
+      };
 
-// 🔥 it up
-server.listen(PORT, function (err) {
-  if (err) {
-    return console.error('Error starting server: ', err)
-  }
+      res.send(body);
+    }
+  });
+});
 
-  console.log('Server successfully started on port %s', PORT)
-})
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
