@@ -1,0 +1,30 @@
+{
+  "name": "dice-master-bot",
+  "version": "1.0.0",
+  "description": "A dice rolling Slackbot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilliamBZA/DiceMaster.git"
+  },
+  "keywords": [
+    "slackbot",
+    "bot",
+    "slack",
+    "dice",
+    "tabletop"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WilliamBZA/DiceMaster/issues"
+  },
+  "homepage": "https://github.com/WilliamBza/DiceMaster",
+  "dependencies": {
+    "beepboop-botkit": "^1.4.0",
+    "botkit": "~0.1.1"
+  }
+}
