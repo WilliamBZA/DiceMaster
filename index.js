@@ -30,7 +30,7 @@ app.use(express.static('resources'));
 
 app.post('/post', function (req, res) {
   var set = 'ia';
-  var dice = [{die: 'red', number: 1}, {die: 'green', number: 2}];
+  var dice = [{die: 'red', number: 6}, {die: 'green', number: 6}];
   
   if (sets[set]) {
     var selectedSet = sets[set];
