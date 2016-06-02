@@ -16,20 +16,49 @@ app.get('/', function(req, res) {
 app.use(express.static('resources'));
 
 app.post('/post', function(req, res) {
-      var body = {
-        response_type: "in_channel",
-        attachments: [{
-            "pretext": "you rolled a",
-            "image_url": "https://dicemaster.herokuapp.com/ia/blue3.png"
-        }, {
-            "pretext": "and a",
-            "image_url": "https://dicemaster.herokuapp.com/ia/blue2.png"
-        }]
+  var set = 'ia';
+  var dice = [{die: 'red', number: 1}, {die: 'green', number: 2}];
+  
+  if (sets[set]) {
+    var selectedSet = sets[set];
+    
+    var response = dice.map(function(selection) {
+      var rolls = [];
+      for (var x = 0; x < selection.number; x++) {
+        rolls.push("https://dicemaster.herokuapp.com/" + set + "/" + selection.die + rollRandom(set.diesides) + ".png")
+      }
+      return rolls;
+    }).reduce(function(acc, current) {
+      return acc.concat(current);
+    }, []).map(function(img) {
+      return {
+        "pretext": "rolled a",
+        "image_url": img
       };
-      
-      res.send(body);
+    });
+    
+    var body = {
+      response_type: "in_channel",
+      attachments: [response]
+    };
+  
+    res.send(body);
+  }
 });
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+function rollRandom(maxValue) {
+  return Math.floor(Math.random() * max) + 1;
+}
+
+var ia = {
+  diesides = 6,
+  validDie = ['red', 'green', 'blue', 'yellow', 'black', 'white']
+}
+
+var sets = {
+  ia = ia
+};
