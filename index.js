@@ -18,7 +18,7 @@ app.use(express.static('resources'));
 app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
-        text: req.body.text + "https://dicemaster.herokuapp.com/resources/ia/blue3.png"
+        text: req.body.text + "https://dicemaster.herokuapp.com/ia/blue3.png"
       };
 
       res.send(body);
