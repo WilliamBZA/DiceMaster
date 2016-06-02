@@ -8,12 +8,12 @@ function rollRandom(maxValue) {
 }
 
 var ia = {
-  diesides = 6,
-  validDie = ['red', 'green', 'blue', 'yellow', 'black', 'white']
+  diesides : 6,
+  validDie : ['red', 'green', 'blue', 'yellow', 'black', 'white']
 }
 
 var sets = {
-  ia = ia
+  ia : ia
 };
 
 var bodyParser = require('body-parser');
