@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
-        text: req.body.text + " http://vignette4.wikia.nocookie.net/imperial-assault/images/d/d7/Imperial_Assault_Die_Face.png/revision/latest?cb=20150825022932  http://epilepsyu.com/epilepsyassociation/files/2016/01/FUN.gif"
+        text: req.body.text + "https://dicemaster.herokuapp.com/resources/ia/blue3.png"
       };
 
       res.send(body);
