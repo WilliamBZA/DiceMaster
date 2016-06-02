@@ -4,7 +4,7 @@ var url = require('url');
 var request = require('request');
 
 function rollRandom(maxValue) {
-  return Math.floor(Math.random() * max) + 1;
+  return Math.floor(Math.random() * maxValue) + 1;
 }
 
 var ia = {
@@ -28,7 +28,7 @@ app.get('/', function(req, res) {
 
 app.use(express.static('resources'));
 
-app.post('/post', function(req, res) {
+app.post('/post', function (req, res) {
   var set = 'ia';
   var dice = [{die: 'red', number: 1}, {die: 'green', number: 2}];
   
@@ -38,7 +38,7 @@ app.post('/post', function(req, res) {
     var response = dice.map(function(selection) {
       var rolls = [];
       for (var x = 0; x < selection.number; x++) {
-        rolls.push("https://dicemaster.herokuapp.com/" + set + "/" + selection.die + rollRandom(set.diesides) + ".png")
+        rolls.push("https://dicemaster.herokuapp.com/" + set + "/" + selection.die + rollRandom(selectedSet.diesides) + ".png")
       }
       return rolls;
     }).reduce(function(acc, current) {
