@@ -18,7 +18,13 @@ app.use(express.static('resources'));
 app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
-        text: req.body.text + "https://dicemaster.herokuapp.com/ia/blue3.png"
+        attachments: [{
+            "pretext": "you rolled a",
+            "image_url": "https://dicemaster.herokuapp.com/ia/blue3.png"
+        }, {
+            "pretext": "and a",
+            "image_url": "https://dicemaster.herokuapp.com/ia/blue2.png"
+        }]
       };
       
       res.send(body);
