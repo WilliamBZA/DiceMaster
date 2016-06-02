@@ -20,8 +20,14 @@ app.post('/post', function(req, res) {
         response_type: "in_channel",
         text: req.body.text + "https://dicemaster.herokuapp.com/ia/blue3.png"
       };
+      
+      var body2 = {
+        response_type: "in_channel",
+        text: req.body.text + "https://dicemaster.herokuapp.com/ia/red1.png"
+      };
 
       res.send(body);
+      res.send(bod2y);
 });
 
 app.listen(app.get('port'), function() {
