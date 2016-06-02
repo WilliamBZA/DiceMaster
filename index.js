@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
-        text: JSON.stringify(req)
+        text: req.body.text
       };
 
       res.send(body);
