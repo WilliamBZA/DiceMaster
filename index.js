@@ -87,17 +87,17 @@ app.get('/webhooklink/', function (req, res) {
 });
 
 app.post('/webhook/', function (req, res) {
-    // var messaging_events = req.body.entry[0].messaging;
+    var messaging_events = req.body.entry[0].messaging;
     
-    // for (let i = 0; i < messaging_events.length; i++) {
-    //     var event = req.body.entry[0].messaging[i];
-    //     var sender = event.sender.id;
+    for (var i = 0; i < messaging_events.length; i++) {
+        var event = req.body.entry[0].messaging[i];
+        var sender = event.sender.id;
         
-    //     if (event.message && event.message.text) {
-    //         var text = event.message.text;
-    //         //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
-    //     }
-    // }
+        if (event.message && event.message.text) {
+            var text = event.message.text;
+            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
+        }
+    }
     
     res.sendStatus(200);
 });
