@@ -13,6 +13,8 @@ app.get('/', function(req, res) {
   res.send('It works!');
 });
 
+app.use(express.static('resources'));
+
 app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
