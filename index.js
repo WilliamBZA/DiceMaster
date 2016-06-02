@@ -3,6 +3,19 @@ var app = express();
 var url = require('url');
 var request = require('request');
 
+function rollRandom(maxValue) {
+  return Math.floor(Math.random() * max) + 1;
+}
+
+var ia = {
+  diesides = 6,
+  validDie = ['red', 'green', 'blue', 'yellow', 'black', 'white']
+}
+
+var sets = {
+  ia = ia
+};
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,16 +62,3 @@ app.post('/post', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
-function rollRandom(maxValue) {
-  return Math.floor(Math.random() * max) + 1;
-}
-
-var ia = {
-  diesides = 6,
-  validDie = ['red', 'green', 'blue', 'yellow', 'black', 'white']
-}
-
-var sets = {
-  ia = ia
-};
