@@ -16,7 +16,7 @@ app.get('/', function(req, res) {
 app.post('/post', function(req, res) {
       var body = {
         response_type: "in_channel",
-        text: "meow",
+        text: req.body.text,
         attachments: [{
           text: "You rolled a http://vignette4.wikia.nocookie.net/imperial-assault/images/d/d7/Imperial_Assault_Die_Face.png/revision/latest?cb=20150825022932"
         }]
