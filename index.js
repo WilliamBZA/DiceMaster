@@ -36,6 +36,20 @@ function sendTextMessage(sender, text) {
     });
 }
 
+function roll(diceChoices, set) {
+  var response = diceChoices.map(function(selection) {
+      var rolls = [];
+      for (var x = 0; x < selection.number; x++) {
+        rolls.push("https://dicemaster.herokuapp.com/" + set + "/" + selection.die + rollRandom(6) + ".png")
+      }
+      return rolls;
+    }).reduce(function(acc, current) {
+      return acc.concat(current);
+    }, []);
+    
+    return response;
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -78,32 +92,28 @@ app.post('/post', function (req, res) {
   }
 });
 
-// for Facebook verification
-app.get('/webhooklink/', function (req, res) {
-    if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
-        res.send(req.query['hub.challenge'])
+// 2red2yellow1black
+app.get('/roll/:dice', function (req, res) {
+  var dice = req.params.dice;
+  
+  var match = dice.match(/[a-zA-Z]+|[0-9]+/g).reduce(function(acc, current, index, array) {
+    if (index % 2 == 0) {
+      acc.push({
+        die: array[index + 1],
+        number: parseInt(current) 
+      });
     }
-    res.send('Error, wrong token')
-});
+    
+    return acc;
+  }, []);
 
-app.post('/webhook/', function (req, res) {
-    var messaging_events = req.body.entry[0].messaging;
-    
-    for (var i = 0; i < messaging_events.length; i++) {
-        var event = req.body.entry[0].messaging[i];
-        var sender = event.sender.id;
-        
-        if (event.message && event.message.text) {
-            var text = event.message.text;
-            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
-        }
-    }
-    
-    res.sendStatus(200);
+  var rolls = roll(match, 'ia').map(function (src) {
+    return '<img src = "' + src + '" />';
+  });
+
+  res.send((rolls + '').replace(',', ''));
 });
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
-var facebookToken = "EAADprYRJPA8BAFNqrZB1MzBYcjjdcKEXU5inZCvBEg3uyczY933vNUVIXBYFv4E0bXOZAaZBtgZCgpG6pjcalGk21jIVlsh8A3yEBCZB91ZCtcbx6OZBVg3xolCZCzBbpwkvOuK731ZCmeWoweYZC6hWR6w9JK9fZAFMB8cXJwiZClZC6GZ";
