@@ -3,6 +3,7 @@ var app = express();
 var url = require('url');
 var request = require('request');
 var bodyParser = require('body-parser');
+var images = require('images');
 
 function rollRandom(maxValue) {
   return Math.floor(Math.random() * maxValue) + 1;
@@ -40,7 +41,8 @@ function roll(diceChoices, set) {
   var response = diceChoices.map(function(selection) {
       var rolls = [];
       for (var x = 0; x < selection.number; x++) {
-        rolls.push("https://dicemaster.herokuapp.com/" + set + "/" + selection.die + rollRandom(6) + ".png")
+        // rolls.push("https://dicemaster.herokuapp.com/" + set + "/" + selection.die + rollRandom(6) + ".png")
+        rolls.push("resources/" + set + "/" + selection.die + rollRandom(6) + ".png")
       }
       return rolls;
     }).reduce(function(acc, current) {
@@ -60,6 +62,7 @@ app.get('/', function(req, res) {
 });
 
 app.use(express.static('resources'));
+app.use(express.static('generated'));
 
 app.post('/post', function (req, res) {
   var set = 'ia';
@@ -107,11 +110,16 @@ app.get('/roll/:dice', function (req, res) {
     return acc;
   }, []);
 
-  var rolls = roll(match, 'ia').map(function (src) {
-    return '<img src = "' + src + '" />';
+  var rolls = roll(match, 'ia');
+  
+  var outputImage = images(51 * rolls.length, 60);
+  rolls.forEach(function(roll, index) {
+    outputImage = outputImage.draw(images(roll), 51 * index, 0);
   });
+  
+  outputImage.save('generated/output.jpg');
 
-  res.send((rolls + '').replace(',', ''));
+  res.send('<img src="/output.jpg" />');
 });
 
 app.listen(app.get('port'), function() {
